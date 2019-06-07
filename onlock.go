@@ -1,12 +1,16 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os/exec"
 
 	"github.com/godbus/dbus"
 )
+
+type commandToExecute struct {
+	Path      string
+	Arguments []string
+}
 
 func main() {
 	conn, err := dbus.SessionBus()
@@ -35,11 +39,33 @@ func main() {
 }
 
 func onScreenLock() {
-	fmt.Printf("Screen locked!\n")
-	exec.Command("/usr/local/bin/ckb-next", "--profile", "Off").Run()
+	commandsToExecute := []commandToExecute{
+		{
+			Path: "/usr/local/bin/ckb-next",
+			Arguments: []string{
+				"--profile",
+				"Off",
+			},
+		},
+	}
+
+	for _, c := range commandsToExecute {
+		exec.Command(c.Path, c.Arguments...).Run()
+	}
 }
 
 func onScreenUnlock() {
-	fmt.Printf("Screen unlocked!\n")
-	exec.Command("/usr/local/bin/ckb-next", "--profile", "On").Run()
+	commandsToExecute := []commandToExecute{
+		{
+			Path: "/usr/local/bin/ckb-next",
+			Arguments: []string{
+				"--profile",
+				"On",
+			},
+		},
+	}
+
+	for _, c := range commandsToExecute {
+		exec.Command(c.Path, c.Arguments...).Run()
+	}
 }
