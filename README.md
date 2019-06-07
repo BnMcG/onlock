@@ -1,0 +1,2 @@
+# onlock
+onlock is a simple Go application that will listen for screen lock/unlock signals from D-Bus and then act appropriately. By default, it will activate a ckb-next profile called "Off" when the screen is locked, and a profile called "On" when the screen is unlocked.
